@@ -21,8 +21,6 @@ export class AddEditStoreComponent implements OnInit {
   ngOnInit() {
     this.setGroupData(this.data);
     this.image = this.form.controls['image'].value;
-    console.log('image', this.image);
-    console.log('form', this.form.controls['image']);
   }
 
   /**
@@ -62,7 +60,6 @@ export class AddEditStoreComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log("form", this.form.controls);
     // stop here if form is invalid
     if (this.form.invalid) {
       return;
