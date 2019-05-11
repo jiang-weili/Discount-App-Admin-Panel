@@ -1,0 +1,15 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <span class="modal-title" id="modal-basic-title" i18n>{{ title }}</span>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('back')">
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-sm-12" *ngFor="let product of products">
+        <img class="look-book" [src]="product['image'] ? '../../../../../assets/product-images/'+product['image'] : '../../../../assets/product-images/default.png'" alt="product image">
+      </div>
+    </div>
+  </div>
+</div>

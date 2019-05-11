@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "CLOTHES"
+  },
+  {
+    "id": 2,
+    "name": "SHOES"
+  },
+  {
+    "id": 3,
+    "name": "ACCESSORIES"
+  },
+  {
+    "id": 4,
+    "name": "ELECTRONICS"
+  },
+  {
+    "id": 5,
+    "name": "HOME DECO"
+  },
+  {
+    "id": 6,
+    "name": "ARTS & CRAFTS"
+  },
+  {
+    "id": 7,
+    "name": "LUXURY BEAUTY"
+  },
+  {
+    "id": 8,
+    "name": "COSMETICS"
+  },
+  {
+    "id": 9,
+    "name": "JEWERLY"
+  },
+  {
+    "id": 10,
+    "name": "SPORTS/OUTDOOR"
+  },
+  {
+    "id": 11,
+    "name": "KIDS FASHION"
+  },
+  {
+    "id": 12,
+    "name": "TOYS & HOBBIES"
+  }
+]

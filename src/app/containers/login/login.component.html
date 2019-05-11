@@ -1,0 +1,34 @@
+<div class="login-page">
+  <div class="login-container" *ngIf="state.loginFlow === 'normal'">
+    <div class="cols">
+      <div class="col">
+        <div class="logo"></div>
+      </div>
+      <div class="col">
+        <div class="fieldset">
+          <div class="fs-lbl" i18n>
+            Email
+          </div>
+          <div class="fs-val">
+            <input type="email" class="text-ctrl" [(ngModel)]="state.username" (focus)="loginErrorMessage=null" />
+          </div>
+        </div>
+        <div class="fieldset">
+          <div class="fs-lbl" i18n>
+            Password
+          </div>
+          <div class="fs-val">
+            <input type="password" class="text-ctrl" [(ngModel)]="state.password" (focus)="loginErrorMessage=null"/>
+          </div>
+        </div>
+        <div class="login-error-message-container" *ngIf="loginErrorMessage">
+          <span>{{ loginErrorMessage }}</span>
+        </div>
+        <div class="row-action">
+          <!-- <a class="lnk" (click)="forgotPassword()">Forgot password?</a> -->
+          <a (click)="login()" class="btn btn-login">Log in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

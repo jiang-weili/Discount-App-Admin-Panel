@@ -1,0 +1,20 @@
+[
+  {
+    "userId": 1,
+    "userName": "Wei Li Jiang",
+    "gender": "man",
+    "age": 25,
+    "email": "jwl1013@outlook.com",
+    "phone": "17155555555",
+    "telCode": "+86"
+  },
+  {
+    "userId": 2,
+    "userName": "Wei Li Jiang",
+    "gender": "man",
+    "age": 25,
+    "email": "jwl1013@outlook.com",
+    "phone": "17155555555",
+    "telCode": "+1"
+  }
+]

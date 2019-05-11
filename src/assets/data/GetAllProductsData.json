@@ -1,0 +1,107 @@
+[
+  {
+    "productId": 1,
+    "name": "Product 1",
+    "style": "CASUAL",
+    "image": "1.png",
+    "type": "MEN",
+    "category": "SHOES",
+    "price": 12
+  },
+  {
+    "productId": 2,
+    "name": "Product 2",
+    "style": "CASUAL",
+    "image": "2.jpeg",
+    "type": "WOMEN",
+    "category": "SHOES",
+    "price": 5234
+  },
+  {
+    "productId": 3,
+    "name": "Product 3",
+    "style": "CASUAL",
+    "image": "1.png",
+    "type": "MEN",
+    "category": "SHOES",
+    "price": 5234
+  },
+  {
+    "productId": 4,
+    "name": "Product 4",
+    "style": "CASUAL",
+    "image": "1.png",
+    "type": "MEN",
+    "category": "SHOES",
+    "price": 5234
+  },
+  {
+    "productId": 5,
+    "name": "Product 5",
+    "style": "CASUAL",
+    "image": "2.jpeg",
+    "type": "MEN",
+    "category": "SHOES",
+    "price": 5234
+  },
+  {
+    "productId": 6,
+    "name": "Product 6",
+    "style": "CASUAL",
+    "image": "2.jpeg",
+    "type": "MEN",
+    "category": "SHOES",
+    "price": 5234
+  },
+  {
+    "productId": 7,
+    "name": "Product 7",
+    "style": "CASUAL",
+    "type": "MEN",
+    "category": "SHOES",
+    "price": 5234
+  },
+  {
+    "productId": 8,
+    "name": "Product 8",
+    "style": "CASUAL",
+    "image": "1.png",
+    "type": "MEN",
+    "category": "SHOES",
+    "price": 5234
+  },
+  {
+    "productId": 9,
+    "name": "Product 9",
+    "style": "CASUAL",
+    "image": "1.png",
+    "type": "MEN",
+    "category": "SHOES",
+    "price": 5234
+  },
+  {
+    "productId": 10,
+    "name": "Product 10",
+    "style": "CASUAL",
+    "type": "MEN",
+    "category": "SHOES",
+    "price": 5234
+  },
+  {
+    "productId": 11,
+    "name": "Product 11",
+    "style": "CASUAL",
+    "type": "MEN",
+    "category": "SHOES",
+    "price": 5234
+  },
+  {
+    "productId": 12,
+    "name": "Product 12",
+    "style": "CASUAL",
+    "image": "1.png",
+    "type": "MEN",
+    "category": "SHOES",
+    "price": 5234
+  }
+]

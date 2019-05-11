@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "FORMAL"
+  },
+  {
+    "id": 2,
+    "name": "BUSINESS CASUAL"
+  },
+  {
+    "id": 3,
+    "name": "SMART CASUAL"
+  },
+  {
+    "id": 4,
+    "name": "SPORTY"
+  },
+  {
+    "id": 5,
+    "name": "CASUAL"
+  }
+]

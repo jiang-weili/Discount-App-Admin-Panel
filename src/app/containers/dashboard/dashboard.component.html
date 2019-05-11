@@ -1,0 +1,38 @@
+<div class="page-container">
+  <header class="header-container">
+    <h3 i18n>{{title}}</h3>
+    <div class="header-opts">
+      <a (click)="toggleSetting()">
+        <i class="icon icon-setting" [ngClass]="{'active':showMenuSidebar}"></i>
+      </a>
+    </div>
+  </header>
+
+  <div class="page-wrap">
+    <aside class="left-aside" *ngIf="showMenuSidebar">
+      <ul class="links">
+        <a routerLink="/dashboard/products" routerLinkActive="active" class="link">
+          <i class="fa fa-cubes"></i>
+          <span i18n>Products</span>
+        </a>
+        <a routerLink="/dashboard/stores" routerLinkActive="active" class="link">
+          <i class="fa fa-database"></i>
+          <span i18n>Stores</span>
+        </a>
+        <a routerLink="/dashboard/members-privileges" routerLinkActive="active" class="link">
+          <i class="icon icon-members-privileges"></i>
+          <span i18n>Members</span>
+        </a>
+        <a routerLink="/dashboard/categories" routerLinkActive="active" class="link">
+          <i class="fa fa-tags"></i>
+          <span i18n>Categories</span>
+        </a>
+      </ul>
+    </aside>
+
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>

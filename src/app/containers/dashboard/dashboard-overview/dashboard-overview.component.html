@@ -1,0 +1,33 @@
+<div class="dashboard-overview" [perfectScrollbar]="{}">
+  <div class="loading-box" *ngIf="loading">
+    <div class="img" alt="loading"></div>
+  </div>
+  <div *ngIf="!loading" class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6 daily-status-section">
+        <div class="chart-card daily-status">
+          <div class="status-item">
+            <span class="value">{{ statistics.stores }}</span>
+            <span class="text" i18n>Stores</span>
+            <i class="fa fa-database"></i>
+          </div>
+          <div class="status-item">
+            <span class="value">{{ statistics.products }}</span>
+            <span class="text" i18n>Products</span>
+            <i class="fa fa-cubes"></i>
+          </div>
+          <div class="status-item">
+            <span class="value">{{ statistics.users }}</span>
+            <span class="text" i18n>Members</span>
+            <i class="icon icon-members-privileges"></i>
+          </div>
+          <div class="status-item">
+            <span class="value">{{ statistics.categories }}</span>
+            <span class="text" i18n>Categories</span>
+            <i class="fa fa-tags"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+@import 'mixin';
+.tabs-stores-center {
+  user-select: none;
+  @include tab-page-default;
+}

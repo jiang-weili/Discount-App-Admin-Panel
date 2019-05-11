@@ -1,0 +1,47 @@
+<div class="modal-container">
+  <div class="modal-header">
+    <span class="modal-title" id="modal-basic-title" i18n>{{ title }}</span>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('back')">
+    </button>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" #storeForm>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-sm-12">
+            <input type="file" style="display:none" (change)="uploadImage($event)" #selectFile formControlName="image" />
+            <div id="droppane">
+                <div class="fsp-drop-pane__container"
+                    (click)="selectFile.click()"
+                >
+                  <img [style.display]="(image) ? '' : 'none'" [src]="image">
+                  <div class="fsp-drop-pane__icon"></div>
+                </div>
+            </div>
+            <div *ngIf="submitted && f['image'].errors" class="error-message">
+              <div *ngIf="f['image'].errors.required">
+                <span class="error-indicate" i18n>Image is Reqiured</span>
+              </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-wrapper">
+            <label class="label-element" i18n>Store name</label>
+            <input [class.invalid]="submitted && f['name'].errors" type="text" formControlName="name" class="form-input"/>
+            <div [class.show]="submitted && f['name'].errors" class="error-message" i18n>Store name is required.</div>
+          </div>
+        </div>
+        <div class="col-sm-12">
+          <div class="form-wrapper">
+            <label class="label-element" i18n>Location</label>
+            <input [class.invalid]="validation('location')" type="text" formControlName="location"
+                   class="form-input"/>
+            <div [class.show]="validation('location')" class="error-message" i18n>Location is required.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-save" i18n>Save</button>
+    </div>
+  </form>
+</div>

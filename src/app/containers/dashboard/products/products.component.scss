@@ -1,0 +1,4 @@
+@import 'mixin';
+.tabs-products-container {
+  @include tab-page-default;
+}

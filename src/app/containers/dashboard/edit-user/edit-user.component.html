@@ -1,0 +1,99 @@
+<div class="sub-page edit-user" [class.modal-page]="mode === 'as-modal'">
+  <div class="viewport">
+    <header class="sub-header sub-header-sm" [class.modal-header]="mode === 'as-modal'">
+      <i class="icon icon-back" (click)="backWithoutSave()" *ngIf="mode!=='as-modal'"></i>
+      <h3>{{title}}</h3>
+      <button *ngIf="mode==='as-modal'" type="button" class="close" aria-label="Close"
+              (click)="activeModal.dismiss('back')">
+        <span aria-hidden="false">&times;</span>
+      </button>
+    </header>
+
+    <div class="scroll-container">
+      <div class="role-info-section container-fluid">
+        <div class="loading-box" *ngIf="loading">
+          <div class="img" alt="loading"></div>
+        </div>
+
+        <div class="group-header first-header" *ngIf="mode!=='as-modal'" i18n>Profile</div>
+        <div class="frow row">
+          <div class="col-lg-4">
+            <div class="fieldset">
+              <div class="fs-lbl">
+                <span i18n><sup>*</sup>Name</span>
+              </div>
+              <div class="fs-val">
+                <input type="text" class="input-ctrl" [(ngModel)]="member['userName']" (change)="validateForm()"/>
+              </div>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !member['userName']}" i18n>Name is Reqiured</span>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="fieldset">
+              <div class="fs-lbl">
+                <span i18n><sup>*</sup>Gender</span>
+              </div>
+              <div class="fs-val fs-val-fx">
+                <select class="select-ctrl" [(ngModel)]="member['gender']">
+                  <option>man</option>
+                  <option>woman</option>
+                </select>
+              </div>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !member['gender']}" i18n>Gender is Reqiured</span>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="fieldset">
+              <div class="fs-lbl">
+                <span i18n><sup>*</sup>Age</span>
+              </div>
+              <div class="fs-val">
+                <input type="number" class="input-ctrl" [(ngModel)]="member['age']" (change)="validateForm()"/>
+              </div>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !member['age']}" i18n>Age is Reqiured</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="frow row">
+          <div class="col-lg-6">
+            <div class="fieldset">
+              <div class="fs-lbl">
+                <span i18n><sup>*</sup>Email</span>
+              </div>
+              <div class="fs-val">
+                <input type="email" class="input-ctrl" [(ngModel)]="member['email']" (change)="validateForm()"/>
+              </div>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !isEmail(member['email'])}"
+                    i18n>Should enter email</span>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="fieldset">
+              <div class="fs-lbl">
+                <span i18n><sup>*</sup>Phone</span>
+              </div>
+              <div class="fs-val fs-val-fx">
+                <div class="col-md-3">
+                  <select class="select-ctrl" [(ngModel)]="member['telCode']">
+                    <option>+1</option>
+                    <option>+86</option>
+                  </select>
+                </div>
+                <div class="col-md-9">
+                  <input type="text" class="input-ctrl" [(ngModel)]="member['phone']" (change)="validateForm()"/>
+                </div>
+              </div>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !isPhone(member['phone'])}" i18n>Should enter phone
+                number</span>
+            </div>
+          </div>
+        </div>
+        <div class="bar-action fx-r">
+          <a class="btn btn-save btn-save-form" (click)="save()" i18n>Save</a>
+        </div>
+      </div>
+      <!-- /.create-user-form -->
+    </div>
+  </div>
+</div>

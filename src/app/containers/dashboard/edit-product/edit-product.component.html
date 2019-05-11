@@ -1,0 +1,110 @@
+<div class="sub-page edit-user" [class.modal-page]="mode === 'as-modal'">
+    <div class="viewport">
+      <header class="sub-header sub-header-sm" [class.modal-header]="mode === 'as-modal'">
+        <i class="icon icon-back" (click)="backWithoutSave()" *ngIf="mode!=='as-modal'"></i>
+        <h3>{{title}}</h3>
+        <button *ngIf="mode==='as-modal'" type="button" class="close" aria-label="Close"
+                (click)="activeModal.dismiss('back')">
+          <span aria-hidden="false">&times;</span>
+        </button>
+      </header>
+
+      <div class="scroll-container">
+        <div class="role-info-section container-fluid">
+          <div class="loading-box" *ngIf="loading">
+            <div class="img" alt="loading"></div>
+          </div>
+
+          <div class="frow row">
+            <div class="large-3 columns">
+                <input type="file" style="display:none" (change)="uploadImage($event)" #selectFile [(ngModel)]="product['image']"/>
+                <div id="droppane">
+                    <div class="fsp-drop-pane__container"
+                        (click)="selectFile.click()"
+                    >
+                      <!-- <img [style.display]="(product['image']) ? '' : 'none'" [src]="product['image']"> -->
+                      <img class="look-book" [src]="product['image'] ? '../../../../../assets/product-images/'+product['image'] : '../../../../assets/product-images/default.png'" alt="product image">
+                      <div class="fsp-drop-pane__icon"></div>
+                    </div>
+                </div>
+                <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['image']}" i18n>Image is Reqiured</span>
+            </div>
+          </div>
+
+          <div class="ei">
+            <div class="group-header first-header" *ngIf="mode!=='as-modal'" i18n>Product Information</div>
+          </div>
+
+          <div class="frow row">
+            <div class="col-lg-6">
+              <div class="fieldset">
+                <div class="fs-lbl">
+                  <span i18n><sup>*</sup>Name</span>
+                </div>
+                <div class="fs-val">
+                  <input type="text" class="input-ctrl" [(ngModel)]="product['name']" (change)="validateForm()"/>
+                </div>
+                <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['name']}" i18n>Name is Reqiured</span>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="fieldset">
+                <div class="fs-lbl">
+                  <span i18n><sup>*</sup>Price</span>
+                </div>
+                <div class="fs-val">
+                  <input appPositiveNumberOnly type="text" class="form-input" [(ngModel)]="product['price']" (change)="validateForm()"/>
+                </div>
+                <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['price']}" i18n>Should input price</span>
+              </div>
+            </div>
+          </div>
+          <div class="frow row">
+            <div class="col-lg-4">
+              <div class="fieldset">
+                <div class="fs-lbl">
+                  <span i18n><sup>*</sup>Types</span>
+                </div>
+                <div class="fs-val fs-val-fx">
+                  <select class="select-ctrl" [(ngModel)]="product['type']">
+                    <option *ngFor="let type of types" [ngValue]="type.name">{{ type.name }}</option>
+                  </select>
+                </div>
+                <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['type']}" i18n>Should select type</span>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="fieldset">
+                <div class="fs-lbl">
+                  <span i18n><sup>*</sup>Styles</span>
+                </div>
+                <div class="fs-val fs-val-fx">
+                  <select class="select-ctrl" [(ngModel)]="product['style']">
+                    <option *ngFor="let style of styles" [ngValue]="style.name">{{ style.name }}</option>
+                  </select>
+                </div>
+                <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['style']}" i18n>Should select style</span>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="fieldset">
+                <div class="fs-lbl">
+                  <span i18n><sup>*</sup>Category</span>
+                </div>
+                <div class="fs-val fs-val-fx">
+                  <select class="select-ctrl" [(ngModel)]="product['category']">
+                    <option *ngFor="let category of categories" [ngValue]="category.name">{{ category.name }}</option>
+                  </select>
+                </div>
+                <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['category']}" i18n>Should select category</span>
+              </div>
+            </div>
+          </div>
+          <div class="bar-action fx-r">
+            <a class="btn btn-save btn-save-form" (click)="save()" i18n>Save</a>
+          </div>
+        </div>
+        <!-- /.create-user-form -->
+      </div>
+    </div>
+  </div>

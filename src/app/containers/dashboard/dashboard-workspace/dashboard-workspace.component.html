@@ -1,0 +1,56 @@
+<div class="dashboard-workspace container-fluid" [perfectScrollbar]="{}">
+
+  <div class="section">
+    <div class="section-content row">
+      <div class="col-lg-3">
+          <div class="workspace-card">
+            <div class="workspace-card-header">
+              <i class="fa fa-cubes"></i>
+            </div>
+            <div class="workspace-card-content">
+              <div class="workspace-color-bar orange"></div>
+              <div class="workspace-card-title" i18n>Products</div>
+            </div>
+            <div class="workspace-card-footer" [routerLink]="['/dashboard/products']" i18n>View</div>
+          </div>
+        </div>
+      <div class="col-lg-3">
+        <div class="workspace-card">
+          <div class="workspace-card-header">
+            <!-- <i class="icon"><img src="https://img.icons8.com/metro/18/000000/small-business.png"></i> -->
+            <i class="fa fa-database"></i>
+          </div>
+          <div class="workspace-card-content">
+            <div class="workspace-color-bar orange"></div>
+            <div class="workspace-card-title" i18n>Stores</div>
+          </div>
+          <div class="workspace-card-footer" [routerLink]="['/dashboard/stores']" i18n>View</div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="workspace-card">
+          <div class="workspace-card-header">
+            <i class="fa fa-users"></i>
+          </div>
+          <div class="workspace-card-content">
+            <div class="workspace-color-bar green"></div>
+            <div class="workspace-card-title" i18n>Members</div>
+          </div>
+          <div class="workspace-card-footer" [routerLink]="['/dashboard/members-privileges']" i18n>View</div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="workspace-card">
+          <div class="workspace-card-header">
+            <i class="fa fa-tags"></i>
+          </div>
+          <div class="workspace-card-content">
+            <div class="workspace-color-bar teal"></div>
+            <div class="workspace-card-title" i18n>Categories</div>
+          </div>
+          <div class="workspace-card-footer" [routerLink]="['/dashboard/categories']" i18n>View</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
