@@ -1,9 +1,14 @@
 import { Component, OnInit, ViewEncapsulation, Input, ViewChild, ElementRef } from '@angular/core';
-import { ApplicationService } from '../../../../services/application.service';
-import { UserTypeResolverService } from '../../../../services/user-type-resolver.service';
+import { Http, Headers } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { ApplicationService } from '../../../services/application.service';
+import { AuthService } from '../../../services/auth.service';
 import { BackWithoutSaveAlertModalComponent } from '../modals/back-without-save-alert-modal/back-without-save-alert-modal.component';
+import { environment as env } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-edit-product',
@@ -15,20 +20,23 @@ export class EditProductComponent implements OnInit {
   title = '';
   @Input() mode: 'full-screen' | 'as-modal' = 'full-screen';
   @Input() productInput = null;
-  productImagePreview: any;
+  imageBaseUrl = ""
   product = {};
   categories = [];
-  styles = [];
-  types = [];
+  stores = [];
   addNewProduct = false;
   loading = false;
-  userType: string;
   isFormValid = true;
-  submitted  = false;
+  submitted = false;
 
   constructor(
-    private appSvc: ApplicationService, public activeModal: NgbActiveModal,
-    private modalService: NgbModal, private userTypeResolverService: UserTypeResolverService
+    private api: ApplicationService, 
+    private router: Router, 
+    public activeModal: NgbActiveModal, 
+    private modalService: NgbModal, 
+    private httpClient: HttpClient,
+    private http: Http,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -36,34 +44,54 @@ export class EditProductComponent implements OnInit {
     this.title = this.productInput ? 'Edit product' : 'Add New Product';
     this.product = this.productInput ? _.cloneDeep(this.productInput) : {};
     this.addNewProduct = !this.productInput;
+    this.imageBaseUrl = env.apiURL + "api/Upload/Image/";
 
-    this.appSvc.getAllCategories().subscribe(res => {
-      this.categories = res;
+    this.api.list('/api/store/all', 0, data => {
+      this.stores = data;
+      this.validateForm();
     });
-    this.appSvc.getAllTypes().subscribe(res => {
-      this.types = res;
-    });
-    this.appSvc.getAllStyles().subscribe(res => {
+
+    this.api.list('/api/category/all', 0, data => {
+      this.categories = data;
+      if (this.addNewProduct === true) {
+        this.product['isActive'] = true;
+      }
+      this.validateForm();
       this.loading = false;
-      this.styles = res;
     });
-    this.userType = this.userTypeResolverService.resolve();
-    this.validateForm();
   }
 
-  uploadImage(event) {
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (e) => { // called once readAsDataURL is completed
-        this.product['image'] = e.target['result'];
-      };
-    }
+  uploadImage(files: File[]) {
+      // const reader = new FileReader();
+      // reader.onload = () => {
+      //   this.product['icon'] = reader.readAsDataUrl(files[0]);
+      // }
+    this.loading = true;
+    this.api.uploadFile('api/Upload/Image/', files[0], data => {
+      this.product['icon'] = data;
+      this.loading = false;
+    });
   }
 
   validateForm() {
-    this.isFormValid = this.product['image'] && this.product['name'] && this.product['type'] && this.product['style'] && this.product['category'] && this.product['price'];
+    if (this.product['name'] != undefined && this.product['name'] != null &&
+      this.product['description'] != undefined && this.product['description'] != null &&
+      this.product['price'] != undefined && this.product['price'] != null &&
+      this.product['sellingPrice'] != undefined && this.product['sellingPrice'] != null &&
+      this.product['categoryId'] != undefined && this.product['categoryId'] != null && 
+      this.product['storeId'] != undefined && this.product['storeId'] != null && 
+      this.product['unitsInStock'] != undefined && this.product['unitsInStock'] != null)
+    {
+      this.isFormValid = true;
+    } else {
+      this.isFormValid = false;
+    }
+
     return this.isFormValid;
+  }
+
+  onActiveProduct(e) {
+    this.product['isActive'] = e.target.checked;
   }
 
   backWithoutSave() {
@@ -80,8 +108,7 @@ export class EditProductComponent implements OnInit {
 
   save() {
     this.submitted = true;
-    if (this.validateForm()) {
-      this.activeModal.close(this.product);
-    }
+    if (this.validateForm() === false) return;
+    this.activeModal.close(this.product);
   }
 }

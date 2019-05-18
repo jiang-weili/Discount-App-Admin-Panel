@@ -1,0 +1,43 @@
+<div class="content-wrap all-stores">
+    <div class="title">
+      <span i18n>{{asModal?'Stores':'Manage Stores'}}</span>
+    </div>
+
+    <div class="scroll-panel">
+      <div class="body-panel" [perfectScrollbar]="{}" [class.modal-body-panel]="asModal">
+        <div class="loading-box" *ngIf="loading">
+          <div class="img" alt="loading"></div>
+        </div>
+        
+        <div class="all-store-table">
+            <table id="storetable" class="table table-striped table-bordered nowrap" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>NAME</th>
+                        <th>SLOGAN</th>
+                        <th>SALE DETAILS</th>
+                        <th>CATEGORY</th>
+                        <th width="10%">ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let store of allStores; let i = index">
+                        <td>{{ store.name }}</td>
+                        <td>{{ store.slogan }}</td>
+                        <td>{{ store.saleDetails }}</td>
+                        <td>{{ store.category }}</td>
+                        <td style="text-align: center">
+                            <button style="background-color: transparent"><i class="fa fa-edit" (click)="addOrEditStore(store)"></i></button>
+                             &nbsp;
+                            <button style="background-color: transparent"><i class="fa fa-trash" (click)="deleteStore(store)"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="footer-panel" *ngIf="!asModal">
+        <app-add-new (click)="addOrEditStore()" *ngIf="!asModal"><span i18n>Add New Store</span></app-add-new>
+      </div>
+    </div>
+</div>

@@ -26,7 +26,7 @@ import { MainDashboardComponent } from './main-dashboard/main-dashboard.componen
 import { DashboardOverviewComponent } from './dashboard-overview/dashboard-overview.component';
 import { DashboardWorkspaceComponent } from './dashboard-workspace/dashboard-workspace.component';
 import { PositiveNumberOnlyDirective } from '../../directive/positiveNumber.directive';
-import { AddEditStoreComponent } from './modals/add-edit-store/add-edit-store.component';
+import { AddEditStoreComponent } from '../../containers/dashboard/add-edit-store/add-edit-store.component';
 import { AddNewComponent } from '../../components/add-new/add-new.component';
 import { MemberComponent } from '../../components/member/member.component';
 import { PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -34,6 +34,10 @@ import { AllProductsComponent } from './all-products/all-products.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
 import { LookBookStoreComponent } from './modals/look-book-store/look-book-store.component';
 import { AddEditItemComponent } from './modals/add-edit-item/add-edit-item.component';
+import { AllStoresComponent } from './all-stores/all-stores.component';
+
+import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import { AgmCoreModule } from '@agm/core';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
@@ -56,7 +60,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     DragAndDropModule,
     NgbTabsetModule,
     ReactiveFormsModule,
-    RouterModule.forChild(dashboardRoutes)
+    RouterModule.forChild(dashboardRoutes),
+    GooglePlaceModule,
+    AgmCoreModule.forRoot({
+        apiKey:'AIzaSyAUkBNadf_lQyCLnNbrgqB9PCLdFP-Agj8',
+        libraries: ["places"]
+    })
   ],
   entryComponents: [
     EditUserComponent,
@@ -66,7 +75,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AddEditStoreComponent,
     EditProductComponent,
     LookBookStoreComponent,
-    AddEditItemComponent
+    AddEditItemComponent,
   ],
   declarations: [
     MemberComponent,
@@ -91,7 +100,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AllProductsComponent,
     EditProductComponent,
     LookBookStoreComponent,
-    AddEditItemComponent
+    AddEditItemComponent,
+    AllStoresComponent,
   ]
 })
 export class DashboardModule { }

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Input, ViewChild, ElementRef } from '@angular/core';
-import { ApplicationService } from '../../../../services/application.service';
-import { UserTypeResolverService } from '../../../../services/user-type-resolver.service';
+import { ApplicationService } from '../../../services/application.service';
 import * as _ from 'lodash';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BackWithoutSaveAlertModalComponent } from '../modals/back-without-save-alert-modal/back-without-save-alert-modal.component';
@@ -25,15 +24,13 @@ export class EditUserComponent implements OnInit {
   @ViewChild('avatarInput') avatarInputRef: ElementRef;
 
   constructor(
-    private appSvc: ApplicationService, public activeModal: NgbActiveModal,
-    private modalService: NgbModal, private userTypeResolverService: UserTypeResolverService
+    private appSvc: ApplicationService, public activeModal: NgbActiveModal, private modalService: NgbModal
   ) { }
 
   ngOnInit() {
     this.title = this.memberInput ? 'Edit member' : 'Add new member';
     this.member = this.memberInput ? _.cloneDeep(this.memberInput) : {};
     this.addNewUser = !this.memberInput;
-    this.userType = this.userTypeResolverService.resolve();
     this.validateForm();
   }
 

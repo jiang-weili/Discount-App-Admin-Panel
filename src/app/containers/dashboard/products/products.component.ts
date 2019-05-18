@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-products',
@@ -8,12 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   encapsulation: ViewEncapsulation.None
 })
 export class ProductsComponent implements OnInit {
+  constructor() { }
 
-  public userType: string;
-
-  constructor(private activatedRoute: ActivatedRoute) { }
-
-  ngOnInit() {
-    this.userType = this.activatedRoute.snapshot.data.userType;
-  }
+  ngOnInit() { }
 }

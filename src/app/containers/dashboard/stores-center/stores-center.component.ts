@@ -1,6 +1,6 @@
 import { filter } from 'rxjs/operators';
 import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { ApplicationService } from '../../../../services/application.service';
+import { ApplicationService } from '../../../services/application.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AssignProductsComponent } from '../modals/assign-products/assign-products.component';
 import * as _ from 'lodash';
@@ -30,20 +30,21 @@ export class StoresCenterComponent implements OnInit {
     { prop: 'price', name: 'Price', selected: true },
   ];
 
-  constructor(private appSvc: ApplicationService,
+  constructor(private api: ApplicationService,
               private modalService: NgbModal) {
   }
 
   ngOnInit() {
-    this.loading = true;
-    this.appSvc.getProducts().subscribe(data => {
-      this.products = data;
-    });
-    this.appSvc.getAllStoreCenterData().subscribe(data => {
-      this.rows = data;
-      this.stores = data;
-      this.loading = false;
-    });
+    this.loading = false;
+    // this.api.list('api/store/all', )
+    // this.appSvc.getProducts().subscribe(data => {
+    //   this.products = data;
+    // });
+    // this.appSvc.getAllStoreCenterData().subscribe(data => {
+    //   this.rows = data;
+    //   this.stores = data;
+    //   this.loading = false;
+    // });
   }
 
   updateFilter() {

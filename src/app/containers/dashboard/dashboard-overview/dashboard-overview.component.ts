@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ApplicationService } from '../../../../services/application.service';
+// import { ApplicationService } from '../../../services/application.service';
 
 @Component({
   selector: 'app-dashboard-overview',
@@ -14,12 +14,13 @@ export class DashboardOverviewComponent implements OnInit {
   loading = true;
   statistics: any;
 
-  constructor(private appService: ApplicationService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.appService.getDashboardCenterData().subscribe(res => {
-      this.statistics = res.statistics;
-      this.loading = false;
-    });
+    this.loading = false;
+    // this.appService.getDashboardCenterData().subscribe(res => {
+    //   this.statistics = res.statistics;
+    //   this.loading = false;
+    // });
   }
 }

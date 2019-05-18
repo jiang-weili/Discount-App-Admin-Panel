@@ -1,8 +1,10 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApplicationService } from '../../../../services/application.service';
 import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { ApplicationService } from '../../../services/application.service';
+
 import { EditProductComponent } from '../edit-product/edit-product.component';
 import { DeleteAlertModalComponent } from '../modals/delete-alert-modal/delete-alert-modal.component';
 
@@ -15,6 +17,7 @@ const PAGE_SIZE = 10;
 })
 export class AllProductsComponent implements OnInit {
   loading = true;
+  baseUriPfx = "api/product/all";
   allProducts = [];
   allProductsList = [];
   selected = [];
@@ -23,32 +26,30 @@ export class AllProductsComponent implements OnInit {
   page = { totalElements: 0, pageNumber: 0, size: PAGE_SIZE };
   @Input() asModal = false;
   tableVisible = false;
-  userType: string;
+
 
   filterColumns = [
     { prop: 'name', name: 'Name', selected: true },
-    { prop: 'type', name: 'Type', selected: true },
-    { prop: 'style', name: 'Style', selected: true },
+    { prop: 'description', name: 'Description', selected: true },
     { prop: 'category', name: 'Category', selected: true },
+    { prop: 'store', name: 'Store', selected: true },
     { prop: 'price', name: 'Price', selected: true },
+    { prop: 'sellingPrice', name: 'Selling Price', selected: true },
+    { prop: 'unitsInStock', name: 'Units In Stock', selected: true }
   ];
 
-  temp = [];
-  constructor(private appSvc: ApplicationService, private modalService: NgbModal, private activatedRoute: ActivatedRoute) { }
+  constructor(private api: ApplicationService, private modalService: NgbModal, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.appSvc.getAllProducts(this.page.size, this.page.pageNumber).subscribe(res => {
-      this.loading = false;
-      this.page.totalElements = res.totalElements;
-      this.allProductsList = res.data;
-      this.allProducts = res.data;
-      // make the table relayout, otherwize sometimes its layout is wrong
-      setTimeout(() => {
-        this.tableVisible = true;
-      }, 0);
-    });
-    this.userType = this.activatedRoute.snapshot.data.userType;
+    this.getAllProducts();
   }
+
+  setPage($event) {
+    this.page.pageNumber = $event.offset;
+    this.loading = true;
+    this.getAllProducts();
+  }
+
   updateFilter() {
     const strFilter = this.filterStr.trim().toLowerCase();
     let filterItems = this.filterColumns.filter(filterItem => filterItem.selected);
@@ -84,24 +85,74 @@ export class AllProductsComponent implements OnInit {
     modalRef.componentInstance.productInput = product;
     modalRef.componentInstance.mode = product ? 'full-screen' : 'as-modal';
     modalRef.result.then(ret => {
-      // add new product
       if (!product) {
-        if (this.allProductsList.length >= this.page.size) {
-          this.page.size ++;
-        }
-        this.allProductsList.push(ret);
+        var submit_data = {
+          Name: ret['name'],
+          Description: ret.description,
+          Icon: ret['icon'],
+          Price: ret['price'],
+          SellingPrice: ret['sellingPrice'],
+          UnitsInStock: ret['unitsInStock'],
+          IsActive: ret['isActive'],
+          StoreId: ret['storeId'],
+          CategoryId: ret['categoryId']
+        };
+        this.api.store('api/product', submit_data, data => {
+          this.getAllProducts();
+        });
       } else {
-        let index = this.allProductsList.indexOf(product);
-        if (index >= 0) {
-          this.allProductsList.splice(index, 1, ret);
-        }
-        index = this.selected.indexOf(product);
-        if (index >= 0) {
-          this.selected.splice(index, 1, ret);
-        }
+        /*
+          Update product area
+        */
+
+        // let index = this.allProductsList.indexOf(product);
+        // if (index >= 0) {
+        //   this.allProductsList.splice(index, 1, ret);
+        // }
+        // index = this.selected.indexOf(product);
+        // if (index >= 0) {
+        //   this.selected.splice(index, 1, ret);
+        // }
       }
-      this.updateFilter();
+      // this.updateFilter();
+      // this.getAllProducts(0);
     }, () => { });
+  }
+
+  getAllProducts() {
+    this.loading = true;
+    this.allProducts = [];
+    this.allProductsList = [];
+    this.api.list(this.baseUriPfx, this.page.pageNumber, data => {
+      if (data.result === "Success") {
+        data.dataList.forEach(row => {
+          this.allProducts.push({
+            productId: row.product.id,
+            name: row.product.name,
+            description: row.product.description,
+            price: row.product.price,
+            sellingPrice: row.product.price,
+            unitsInStock: row.product.unitsInStock,
+            category: row.categoryName,
+            categoryId: row.categoryId,
+            store: row.storeName,
+            storeId: row.storeId
+          });
+        });
+
+        this.allProductsList = this.allProducts;
+        this.page.totalElements = this.allProducts.length;
+
+        this.selected = [];
+
+        this.updateFilter();
+
+        setTimeout(() => {
+          this.tableVisible = true;
+        }, 0);
+      }
+      this.loading = false;
+    });
   }
 
   onSelect({ selected }) {
@@ -114,23 +165,11 @@ export class AllProductsComponent implements OnInit {
     modalRef.componentInstance.deleteItemName = 'products';
     modalRef.result.then(ret => {
       if (ret === 'delete') {
-        this.allProductsList = _.difference(this.allProductsList, this.selected);
-        this.selected = [];
-        this.updateFilter();
+        this.selected.forEach(product => {
+          this.api.delete('api/product/' + product.productId);
+        });
+        this.getAllProducts();
       }
     }, () => { });
-  }
-
-  setPage($event) {
-    this.page.pageNumber = $event.offset;
-    this.loading = true;
-    this.appSvc.getAllProducts(this.page.size, this.page.pageNumber).subscribe(res => {
-      this.loading = false;
-      this.page.totalElements = res.totalElements;
-      this.allProductsList = res.data;
-      this.allProducts = res.data;
-      this.selected = [];
-      this.updateFilter();
-    });
   }
 }

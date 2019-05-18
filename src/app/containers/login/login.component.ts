@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,19 +10,13 @@ import { AuthService } from '../../../services/auth.service';
 export class LoginComponent implements OnInit {
   state: any = {};
   loginErrorMessage: string;
+  returnUrl: string;
 
-  constructor(private authService: AuthService, public router: Router) { }
+  constructor(private authService: AuthService, public router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.state.loginFlow = 'normal';
-  }
-
-  forgotPassword() {
-    this.state.loginFlow = 'recovery';
-  }
-
-  submitForgotPassword() {
-    this.state.loginFlow = 'normal';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
   }
 
   login() {
@@ -32,20 +26,24 @@ export class LoginComponent implements OnInit {
       return this.loginErrorMessage = 'Please enter the username and password';
     }
 
-    this.authService
-      .login(this.state.username, this.state.password)
+    this.authService.authenticateUser(this.state.username, this.state.password)
       .subscribe(
-        user => {
-          this.state.user = user;
-          this.next();
+        data => {
+          this.authService.storeUserData(data);
+          this.authService.getProfile()
+            .subscribe(
+              user => {
+                sessionStorage.setItem('user', JSON.stringify(user));
+              },
+              err => {
+                console.log('err', err);
+              }
+            );
+          this.router.navigate([this.returnUrl]);
         },
         err => {
           this.loginErrorMessage = 'Invalid username or password';
         }
       );
-  }
-
-  next() {
-    this.router.navigateByUrl('/dashboard');
   }
 }

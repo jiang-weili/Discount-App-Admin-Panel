@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ChildActivationEnd } from '@angular/router';
-import { ApplicationService } from '../../../services/application.service';
+import { ApplicationService } from '../../services/application.service';
 import { tap, filter } from 'rxjs/operators';
+
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +18,6 @@ export class DashboardComponent implements OnInit {
   constructor(private appSvc: ApplicationService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.userType = this.activatedRoute.snapshot.data.userType;
     this.landingRoute = '/dashboard';
     if (this.router.url !== this.landingRoute) {
       this.router.navigateByUrl(this.landingRoute);

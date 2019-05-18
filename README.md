@@ -19,7 +19,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 ## Prototype Login Credentials
 
 You can login with either of the two credentials mentioned below listed in `username` : `password` format
-* `admin@test.com` : `password`
+* `jaafarbarek@gmail.com` : `111222Abc`
 
 The view will display according to different user type('old', 'new').
 

@@ -2,7 +2,11 @@
   <div class="login-container" *ngIf="state.loginFlow === 'normal'">
     <div class="cols">
       <div class="col">
-        <div class="logo"></div>
+        <div class="fieldset">
+          <div class="logo-area">
+              <img src="assets/i/ItunesArtwork@2x.png" />
+          </div>
+        </div>
       </div>
       <div class="col">
         <div class="fieldset">
@@ -25,7 +29,6 @@
           <span>{{ loginErrorMessage }}</span>
         </div>
         <div class="row-action">
-          <!-- <a class="lnk" (click)="forgotPassword()">Forgot password?</a> -->
           <a (click)="login()" class="btn btn-login">Log in</a>
         </div>
       </div>

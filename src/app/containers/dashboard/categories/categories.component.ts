@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ApplicationService } from '../../../../services/application.service';
+import { ApplicationService } from '../../../services/application.service';
 import { DeleteAlertModalComponent } from '../modals/delete-alert-modal/delete-alert-modal.component';
 import { AddEditItemComponent } from '../modals/add-edit-item/add-edit-item.component';
 
@@ -15,15 +15,19 @@ export class CategoriesComponent implements OnInit {
   loading = false;
   categories: Array<any> = [];
 
-  constructor(private appSvc: ApplicationService,
+  constructor(private api: ApplicationService,
               private modalService: NgbModal) {
   }
 
   ngOnInit() {
+    this.getAllCategories();    
+  }
+
+  getAllCategories() {
     this.loading = true;
-    this.appSvc.getAllCategories().subscribe(data => {
-      this.loading = false;
+    this.api.list('api/category/all', 0, data => {
       this.categories = data;
+      this.loading = false;
     });
   }
 
@@ -40,7 +44,14 @@ export class CategoriesComponent implements OnInit {
     modalRef.componentInstance.disableDelete = true;
     modalRef.result.then(ret => {
       if (!item) {
-        this.categories.push(ret);
+        this.api.store('api/category', ret, data => {
+          this.getAllCategories();
+        });
+      } else {
+        /*
+          update category area
+        */
+        console.log('here');
       }
     }, () => {
     });
@@ -58,7 +69,11 @@ export class CategoriesComponent implements OnInit {
     modalRef.componentInstance.deleteItemName = 'selected categories';
     modalRef.result.then(ret => {
       if (ret === 'delete') {
-        this.categories = this.categories.filter(item => !item.selected);
+        this.categories = this.categories.filter(item => item.selected);
+        this.categories.forEach(category => {
+          this.api.delete('api/category' + category.id);
+        });
+        this.getAllCategories();
       }
     }, () => {
     });

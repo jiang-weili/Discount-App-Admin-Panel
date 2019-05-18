@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +10,5 @@ export class AppComponent {
   showContent = true;
 
   constructor(public router: Router) { }
+ 
 }

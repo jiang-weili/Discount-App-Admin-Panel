@@ -1,0 +1,231 @@
+<div class="sub-page edit-user" [class.modal-page]="mode === 'as-modal'">
+  <div class="viewport">
+    <header class="sub-header sub-header-sm" [class.modal-header]="mode === 'as-modal'">
+      <i class="icon icon-back" (click)="backWithoutSave()" *ngIf="mode!=='as-modal'"></i>
+      <h3>{{title}}</h3>
+      <button *ngIf="mode==='as-modal'" type="button" class="close" aria-label="Close"
+              (click)="activeModal.dismiss('back')">
+        <span aria-hidden="false">&times;</span>
+      </button>
+    </header>
+
+    <div class="scroll-container">
+      <div class="role-info-section container-fluid">
+        <div class="loading-box" *ngIf="loading">
+          <div class="img" alt="loading"></div>
+        </div>
+
+        <div class="frow row">
+          <div class="col-lg-12 banner-area">
+              <input type="file" style="display:none" (change)="uploadImage($event.target.files, 'banner')" #selectBanner />
+              <div class="banner-image" (click)="selectBanner.click()">
+                  <img [src]="store['banner'] ? imageDBUrl+store['banner'] : '../../../../assets/product-images/default.png'" alt="banner image">
+              </div>
+
+              <input type="file" style="display:none" (change)="uploadImage($event.target.files, 'icon')" #selectIcon />
+              <div class="icon-area" (click)="selectIcon.click()">
+                <img [src]="store['icon'] ? imageDBUrl+store['icon'] : '../../../../assets/product-images/default.png'" alt="icon image">
+              </div>
+              <h2 class="store-header">{{ store['name'] || 'Store Information' }}</h2>
+          </div>
+        </div>
+
+        <div class="ei"></div>
+
+        <div class="tabs-store-container">
+          <ngb-tabset class="tabs" [destroyOnHide]="true">
+            <ngb-tab title="Normal Information">
+              <ng-template ngbTabContent>
+                <div class="tab tab-notifications">
+                  <div class="tab tab-normal-info">
+                    <div class="frow row">
+                      <div class="col-lg-3">
+                        <div class="fieldset">
+                          <div class="fs-lbl">
+                            <span i18n><sup>*</sup>Name</span>
+                          </div>
+                          <div class="fs-val">
+                            <input type="text" class="input-ctrl" [(ngModel)]="store['name']" (change)="validateForm()"/>
+                          </div>
+                          <span class="error-indicate" [ngClass]="{'invalid':submitted && !store['name']}" i18n>Name is Reqiured</span>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="fieldset">
+                          <div class="fs-lbl">
+                            <span i18n><sup>*</sup>Slogan</span>
+                          </div>
+                          <div class="fs-val">
+                            <input type="text" class="input-ctrl" [(ngModel)]="store['slogan']" (change)="validateForm()"/>
+                          </div>
+                          <span class="error-indicate" [ngClass]="{'invalid':submitted && !store['slogan']}" i18n>Slogan is Reqiured</span>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="fieldset">
+                          <div class="fs-lbl">
+                            <span i18n><sup>*</sup>Sale Detail</span>
+                          </div>
+                          <div class="fs-val">
+                            <input type="text" class="input-ctrl" [(ngModel)]="store['saleDetails']" (change)="validateForm()"/>
+                          </div>
+                          <span class="error-indicate" [ngClass]="{'invalid':submitted && !store['saleDetails']}" i18n>Sale detail is Reqiured</span>
+                        </div>
+                      </div>
+                      <div class="col-lg-3">
+                        <div class="fieldset">
+                          <div class="fs-lbl">
+                            <span i18n><sup>*</sup>Category</span>
+                          </div>
+                          <div class="fs-val fs-val-fx">
+                            <select class="select-ctrl" [(ngModel)]="store['categoryId']">
+                              <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
+                            </select>
+                          </div>
+                          <span class="error-indicate" [ngClass]="{'invalid':submitted && !store['categoryId']}" i18n>Should select category</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="frow row">
+                      <div class="col-lg-12">
+                        <div class="fieldset">
+                          <div class="fs-lbl">
+                            <span i18n><sup>*</sup>Description</span>
+                          </div>
+                          <div class="fs-val">
+                            <input type="textarea" class="form-input" [(ngModel)]="store['description']" (change)="validateForm()"/>
+                          </div>
+                          <span class="error-indicate" [ngClass]="{'invalid':submitted && !store['description']}" i18n>Should fill this area</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="LookBook">
+              <ng-template ngbTabContent>
+                <div class="tab tab-lookbook">
+                  <div class="scroll-container" [perfectScrollbar]="{}">
+                    <div class="content-wrap all-lookbook">
+                      <div class="body">
+                        <div class="all-lookbook row">
+                          <div class="col-lg-3 col-md-6" *ngFor="let look of store['lookbook']; let i = index">
+                            <div class="card-execu">
+                              <img class="lookbook" [src]="look ? imageDBUrl+look['icon'] : '../../../../assets/product-images/default.png'" alt="lookbook">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Locations">
+              <ng-template ngbTabContent>
+                <div class="tab tab-lookbook">
+                  <div class="scroll-container" [perfectScrollbar]="{}">
+                    <div class="content-wrap all-lookbook">
+                      <div class="body">
+                        <table id="locationtable" class="table table-striped table-bordered nowrap" style="width:100%">
+                          <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>NAME</th>
+                                <th>DESCRIPTION</th>
+                                <th>LONGITUDE</th>
+                                <th>LATITUDE</th>
+                                <th width="10%">ACTIONS</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let loc of store['location']; let i = index">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{ loc.name }}</td>
+                              <td>{{ loc.description }}</td>
+                              <td>{{ loc.longitude }}</td>
+                              <td>{{ loc.latitude }}</td>
+                              <td style="text-align: center">
+                                  <button style="background-color: transparent"><i class="fa fa-edit" (click)="openEditLocationForm(i)"></i></button>
+                                    &nbsp;
+                                  <button style="background-color: transparent"><i class="fa fa-trash" (click)="removeLocation(i)"></i></button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                        <div class="frow row" [hidden]="!workOnEditLocationForm">
+                            <h2 class="h2-title with-action">
+                              <span>Edit Location</span>
+                            </h2>
+                        </div>
+                        <div class="add-location" [hidden]="!workOnEditLocationForm">
+                            <input type="text" class="location-name" placeholder="Name" *ngIf="store['location']" [(ngModel)]="editLocationName" aria-required="Name is required"/>
+                            <div class="add-location-error-message-container" [hidden]="editLocationName">
+                              <span i18n>{{ addLocationNameErrorMsg }}</span>
+                            </div>
+
+                            <input type="text" class="location-description" placeholder="Description" *ngIf="store['location']" [(ngModel)]="editLocationDescription" required/>
+                            <div class="add-location-error-message-container" [hidden]="editLocationDescription">
+                              <span i18n>{{ addLocationDescriptionErrorMsg }}</span>
+                            </div>
+
+                            <input type="textarea" class="enter-location" ngx-google-places-autocomplete #placesRef2="ngx-places" (onAddressChange)="handleAddressChange2($event)"/>
+                            <agm-map [latitude]="editLocationLat" [longitude]="editLocationLng">
+                              <agm-marker [latitude]="editLocationLat" [longitude]="editLocationLng"></agm-marker>
+                            </agm-map>
+
+                            <div class="save-button btn-location-add">
+                              <a class="btn btn-save" (click)="updateLocation()" i18n>Update</a>
+                            </div>
+                        </div>
+
+                        <div class="frow row" [hidden]="workOnEditLocationForm">
+                          <h2 class="h2-title with-action">
+                            <span>Add Location</span>&nbsp;&nbsp;&nbsp;
+                            <label for="addLocation" class="checkbox-switch">
+                              <input id="addLocation" type="checkbox" [checked]="showLocationForm" (change)="changeShowMode($event)">
+                              <i class="icon icon-switchbox" [ngClass]="{'checked':showLocationForm}"></i>
+                            </label>
+                          </h2>
+                        </div>
+
+                        <div class="add-location" [hidden]="!showLocationForm">
+                          <input type="text" class="location-name" placeholder="Name" [(ngModel)]="location_name" aria-required="Name is required"/>
+                          <div class="add-location-error-message-container" [hidden]="location_name">
+                            <span i18n>{{ addLocationNameErrorMsg }}</span>
+                          </div>
+
+                          <input type="text" class="location-description" placeholder="Description" [(ngModel)]="location_description" required/>
+                          <div class="add-location-error-message-container" [hidden]="location_description">
+                            <span i18n>{{ addLocationDescriptionErrorMsg }}</span>
+                          </div>
+
+                          <input type="textarea" class="enter-location" ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>
+                          <agm-map [latitude]="lat" [longitude]="lng">
+                            <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                          </agm-map>
+
+                          <div class="save-button btn-location-add">
+                            <a class="btn btn-save" (click)="addLocationToStore()" i18n>Add</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </div>
+
+        <div class="bar-action fx-r">
+          <div class="save-button">
+            <a class="btn btn-save btn-save-form" (click)="save()" i18n>Save</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

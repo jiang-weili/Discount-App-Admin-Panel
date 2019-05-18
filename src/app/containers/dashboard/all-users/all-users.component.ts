@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewEncapsulation, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApplicationService } from '../../../../services/application.service';
+import { ApplicationService } from '../../../services/application.service';
 import * as _ from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EditUserComponent } from '../edit-user/edit-user.component';
@@ -37,17 +37,16 @@ export class AllUserComponent implements OnInit {
   constructor(private appSvc: ApplicationService, private modalService: NgbModal, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.appSvc.getAllUsers(this.page.size, this.page.pageNumber).subscribe(res => {
-      this.loading = false;
-      this.page.totalElements = res.totalElements;
-      this.allUsersList = res.data;
-      this.allUsers = res.data;
-      // make the table relayout, otherwize sometimes its layout is wrong
-      setTimeout(() => {
-        this.tableVisible = true;
-      }, 0);
-    });
-    this.userType = this.activatedRoute.snapshot.data.userType;
+    // this.appSvc.getAllUsers(this.page.size, this.page.pageNumber).subscribe(res => {
+    //   this.loading = false;
+    //   this.page.totalElements = res.totalElements;
+    //   this.allUsersList = res.data;
+    //   this.allUsers = res.data;
+    //   // make the table relayout, otherwize sometimes its layout is wrong
+    //   setTimeout(() => {
+    //     this.tableVisible = true;
+    //   }, 0);
+    // });
   }
   updateFilter() {
     const strFilter = this.filterStr.trim().toLowerCase();
@@ -124,13 +123,13 @@ export class AllUserComponent implements OnInit {
   setPage($event) {
     this.page.pageNumber = $event.offset;
     this.loading = true;
-    this.appSvc.getAllUsers(this.page.size, this.page.pageNumber).subscribe(res => {
-      this.loading = false;
-      this.page.totalElements = res.totalElements;
-      this.allUsersList = res.data;
-      this.allUsers = res.data;
-      this.selected = [];
-      this.updateFilter();
-    });
+    // this.appSvc.getAllUsers(this.page.size, this.page.pageNumber).subscribe(res => {
+    //   this.loading = false;
+    //   this.page.totalElements = res.totalElements;
+    //   this.allUsersList = res.data;
+    //   this.allUsers = res.data;
+    //   this.selected = [];
+    //   this.updateFilter();
+    // });
   }
 }
