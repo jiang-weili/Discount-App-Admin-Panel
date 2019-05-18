@@ -17,23 +17,27 @@ import { environment as env } from '../../../../environments/environment';
   encapsulation: ViewEncapsulation.None
 })
 export class EditProductComponent implements OnInit {
+  /* Initial Variables */
   title = '';
-  @Input() mode: 'full-screen' | 'as-modal' = 'full-screen';
+  @Input() mode: 'as-modal';
   @Input() productInput = null;
-  imageBaseUrl = ""
   product = {};
   categories = [];
   stores = [];
+
+  /* Setting Variables */
+  imageUploadUrl = "api/Upload/Image";
+  imageDBUrl = env.apiURL + "images/";
   addNewProduct = false;
   loading = false;
   isFormValid = true;
   submitted = false;
 
   constructor(
-    private api: ApplicationService, 
-    private router: Router, 
-    public activeModal: NgbActiveModal, 
-    private modalService: NgbModal, 
+    private api: ApplicationService,
+    private router: Router,
+    public activeModal: NgbActiveModal,
+    private modalService: NgbModal,
     private httpClient: HttpClient,
     private http: Http,
     private authService: AuthService
@@ -54,7 +58,7 @@ export class EditProductComponent implements OnInit {
     this.api.list('/api/category/all', 0, data => {
       this.categories = data;
       if (this.addNewProduct === true) {
-        this.product['isActive'] = true;
+        this.product['product']['isActive'] = true;
       }
       this.validateForm();
       this.loading = false;
@@ -62,25 +66,23 @@ export class EditProductComponent implements OnInit {
   }
 
   uploadImage(files: File[]) {
-      // const reader = new FileReader();
-      // reader.onload = () => {
-      //   this.product['icon'] = reader.readAsDataUrl(files[0]);
-      // }
-    this.loading = true;
-    this.api.uploadFile('api/Upload/Image/', files[0], data => {
-      this.product['icon'] = data;
-      this.loading = false;
-    });
+    this.product['icon'] = "e90873ea-9311-474f-a742-144812faa146.png";
+
+    // this.loading = true;
+    // this.api.uploadFile(imageUploadUrl, files[0], data => {
+    //   this.product['icon'] = data;
+    //   this.loading = false;
+    // });
   }
 
   validateForm() {
-    if (this.product['name'] != undefined && this.product['name'] != null &&
-      this.product['description'] != undefined && this.product['description'] != null &&
-      this.product['price'] != undefined && this.product['price'] != null &&
-      this.product['sellingPrice'] != undefined && this.product['sellingPrice'] != null &&
-      this.product['categoryId'] != undefined && this.product['categoryId'] != null && 
-      this.product['storeId'] != undefined && this.product['storeId'] != null && 
-      this.product['unitsInStock'] != undefined && this.product['unitsInStock'] != null)
+    if (this.product['product']['name'] != undefined && this.product['product']['name'] != null &&
+      this.product['product']['description'] != undefined && this.product['product']['description'] != null &&
+      this.product['product']['price'] != undefined && this.product['product']['price'] != null &&
+      this.product['product']['sellingPrice'] != undefined && this.product['product']['sellingPrice'] != null &&
+      this.product['product']['categoryId'] != undefined && this.product['product']['categoryId'] != null &&
+      this.product['product']['storeId'] != undefined && this.product['product']['storeId'] != null &&
+      this.product['product']['unitsInStock'] != undefined && this.product['product']['unitsInStock'] != null)
     {
       this.isFormValid = true;
     } else {
@@ -92,18 +94,6 @@ export class EditProductComponent implements OnInit {
 
   onActiveProduct(e) {
     this.product['isActive'] = e.target.checked;
-  }
-
-  backWithoutSave() {
-    if (JSON.stringify(this.product) !== JSON.stringify(this.productInput)) {
-      this.modalService.open(BackWithoutSaveAlertModalComponent, { centered: true }).result.then(ret => {
-        if (ret === 'leave') {
-          this.activeModal.dismiss('back');
-        }
-      }, () => { });
-    } else {
-      this.activeModal.dismiss('back');
-    }
   }
 
   save() {

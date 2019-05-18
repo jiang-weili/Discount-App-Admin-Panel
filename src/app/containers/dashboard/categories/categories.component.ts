@@ -20,7 +20,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllCategories();    
+    this.getAllCategories();
   }
 
   getAllCategories() {
@@ -48,10 +48,17 @@ export class CategoriesComponent implements OnInit {
           this.getAllCategories();
         });
       } else {
-        /*
-          update category area
-        */
-        console.log('here');
+        this.loading = true;
+        var submit_data = {
+          'Id': ret.id,
+          'Name': ret.name,
+          'Description': ret.description
+        };
+        let editIndex = this.categories.indexOf(item);
+        this.api.update('api/category', submit_data, data => {
+          this.categories.splice(editIndex, 1, ret);
+          this.loading = false;
+        });
       }
     }, () => {
     });
@@ -69,9 +76,10 @@ export class CategoriesComponent implements OnInit {
     modalRef.componentInstance.deleteItemName = 'selected categories';
     modalRef.result.then(ret => {
       if (ret === 'delete') {
-        this.categories = this.categories.filter(item => item.selected);
-        this.categories.forEach(category => {
-          this.api.delete('api/category' + category.id);
+        this.loading = true;
+        var selectedCategories = this.categories.filter(item => item.selected);
+        selectedCategories.forEach(category => {
+          this.api.delete('api/category/' + category.id, cb => { });
         });
         this.getAllCategories();
       }

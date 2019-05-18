@@ -352,37 +352,11 @@
     padding-right: calc(100% - 800px);
   }
 }
-.btn-upload-img {
-  position: absolute;
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  border: solid 1px #a7a7a7;
-  background-color: #d8d8d8;
-  right: -16px;
-  bottom: -4px;
-  font-size: 14px;
-  text-align: center;
-  line-height: 30px;
-  color: #262626;
-  overflow: hidden;
-  cursor: pointer;
-  .file {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    top: 0;
-    opacity: 0;
-    cursor: pointer;
-  }
-}
 .ei {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #d8d8d8;
-  padding-bottom: 15px;
-  padding-top: 16px;
   span {
     font-size: 16px;
     font-weight: 500;
@@ -395,29 +369,15 @@
     color: #0f00ff;
   }
 }
-
-
-
-.large-3 {
-  position: relative;
-  width: 25%;
+.icon-box{
+  margin-top: -30px;
 }
-
-.columns {
-  position: relative;
-  padding-left: 0.9375em;
-  padding-right: 0.9375em;
-  width: 40%;
-  float: left;
-}
-
-.fsp-drop-pane__container {
+.icon-area{
   box-sizing: content-box;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   position: relative;
-  padding: 1px;
   background-color: #EEEEEE;
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -429,86 +389,18 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  height: 222px;
-  border-radius: 1px;
-  border: 2px dashed #BDBDBD;
+  height: 150px;
+  width: 150px;
+  border-radius: 20px;
   -webkit-transition: all 0.3s ease-in;
   transition: all 0.3s ease-in;
-}
-.fsp-drop-pane__container img {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  display: block; }
-
-.fsp-drop-pane__container--active {
-  background-color: #F3F3F3;
-  -webkit-transition: all 0.3s ease-out;
-  transition: all 0.3s ease-out;
-}
-.fsp-drop-pane__drop-zone {
-  position: absolute;
-  background: none;
-  top: 10;
-  left: 20;
-  right: 0;
-  bottom: 0;
-  z-index: 2147483646;
-}
-.fsp-drop-pane__overlay {
-  position: fixed;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 2147483647;
-  background: rgba(184,184,184,0.6);
-  padding: 30px;
-}
-.fsp-drop-pane__overlay-box {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  width: 100%;
-  height: 100%;
-  border: 4px dashed #FFFFFF;
-  pointer-events: none;
-}
-.fsp-drop-pane__icon {
-  width: 44px;
-  height: 58px;
-  padding: 10px;
-  background-image: url(../../../../assets/images/icon-add-files-white.png);
-  background-repeat: no-repeat;
-  background-position: 50% 0;
-  -webkit-transition: all 0.2s ease-out;
-  transition: all 0.2s ease-out;
-}
-.fsp-drop-pane__icon--active {
-  background-image: url(../../../../assets/images/icon-add-files-white.png);
-}
-.fsp-drop-pane__text {
-  font-weight: 400;
-  font-size: 0.95em;
-  color: #2D2D2D;
+  img {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 0;
+    display: block;
+    border-radius: 20px;
+    border: 5px solid rgb(168, 164, 164);
+  }
 }

@@ -1,7 +1,6 @@
 <div class="sub-page edit-user" [class.modal-page]="mode === 'as-modal'">
   <div class="viewport">
     <header class="sub-header sub-header-sm" [class.modal-header]="mode === 'as-modal'">
-      <i class="icon icon-back" (click)="backWithoutSave()" *ngIf="mode!=='as-modal'"></i>
       <h3>{{ title }}</h3>
       <button *ngIf="mode==='as-modal'" type="button" class="close" aria-label="Close"
               (click)="activeModal.dismiss('back')">
@@ -15,19 +14,11 @@
           <div class="img" alt="loading"></div>
         </div>
 
-        <div class="frow row">
-          <div class="large-3 columns">
-              <input type="file" style="display:none" (change)="uploadImage($event.target.files)" #selectFile [(ngModel)]="product['icon']"/>
-              <div id="droppane">
-                  <div class="fsp-drop-pane__container"
-                      (click)="selectFile.click()"
-                  >
-                    <img class="look-book" [src]="product['icon'] ? imageBaseUrl+product['icon'] : '../../../../assets/product-images/default.png'" alt="product image">
-                    <div class="fsp-drop-pane__icon"></div>
-                  </div>
-              </div>
-              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['icon']}" i18n>Icon Image is Reqiured</span>
-          </div>
+        <div class="frow row icon-box">
+            <input type="file" style="display:none" (change)="uploadImage($event.target.files)" #selectIcon />
+            <div class="icon-area" (click)="selectIcon.click()">
+              <img [src]="product['product']['icon'] ? imageDBUrl + product['product']['icon'] : '../../../../assets/product-images/default.png'" alt="icon image">
+            </div>
         </div>
 
         <div class="ei">
@@ -38,8 +29,8 @@
           <h2 class="h2-title with-action">
             <span>Active Product</span>&nbsp;&nbsp;&nbsp;
             <label for="IsActiveProduct" class="checkbox-switch">
-              <input id="IsActiveProduct" type="checkbox" [checked]="product['isActive']" (change)="onActiveProduct($event)">
-              <i class="icon icon-switchbox" [ngClass]="{'checked':product['isActive']}"></i>
+              <input id="IsActiveProduct" type="checkbox" [checked]="product['product'].isActive" (change)="onActiveProduct($event)">
+              <i class="icon icon-switchbox" [ngClass]="{'checked':product['product'].isActive}"></i>
             </label>
           </h2>
         </div>
@@ -50,9 +41,9 @@
                 <span i18n><sup>*</sup>Name</span>
               </div>
               <div class="fs-val">
-                <input type="text" class="input-ctrl" [(ngModel)]="product['name']" (change)="validateForm()"/>
+                <input type="text" class="input-ctrl" [(ngModel)]="product['product']['name']" (change)="validateForm()"/>
               </div>
-              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['name']}" i18n>Name is Reqiured</span>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['product']['name']}" i18n>Name is Reqiured</span>
             </div>
           </div>
           <div class="col-lg-4">
@@ -61,9 +52,9 @@
                 <span i18n><sup>*</sup>Price</span>
               </div>
               <div class="fs-val">
-                <input appPositiveNumberOnly type="number" class="form-input" [(ngModel)]="product['price']" (change)="validateForm()"/>
+                <input appPositiveNumberOnly type="number" class="form-input" [(ngModel)]="product['product']['price']" (change)="validateForm()"/>
               </div>
-              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['price']}" i18n>Should input price</span>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['product']['price']}" i18n>Should input price</span>
             </div>
           </div>
           <div class="col-lg-4">
@@ -72,9 +63,9 @@
                 <span i18n><sup>*</sup>Selling Price</span>
               </div>
               <div class="fs-val">
-                <input appPositiveNumberOnly type="number" class="form-input" [(ngModel)]="product['sellingPrice']" (change)="validateForm()"/>
+                <input appPositiveNumberOnly type="number" class="form-input" [(ngModel)]="product['product']['sellingPrice']" (change)="validateForm()"/>
               </div>
-              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['sellingPrice']}" i18n>Should input selling price</span>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['product']['sellingPrice']}" i18n>Should input selling price</span>
             </div>
           </div>
         </div>
@@ -85,9 +76,9 @@
                 <span i18n><sup>*</sup>Units in Stock</span>
               </div>
               <div class="fs-val">
-                <input appPositiveNumberOnly type="number" class="form-input" [(ngModel)]="product['unitsInStock']" (change)="validateForm()"/>
+                <input appPositiveNumberOnly type="number" class="form-input" [(ngModel)]="product['product'].unitsInStock" (change)="validateForm()"/>
               </div>
-              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['unitsInStock']}" i18n>Should fill this area</span>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['product'].unitsInStock}" i18n>Should fill this area</span>
             </div>
           </div>
           <div class="col-lg-4">
@@ -96,11 +87,11 @@
                 <span i18n><sup>*</sup>Category</span>
               </div>
               <div class="fs-val fs-val-fx">
-                <select class="select-ctrl" [(ngModel)]="product['categoryId']">
+                <select class="select-ctrl" [(ngModel)]="product['product']['categoryId']">
                   <option *ngFor="let category of categories" [ngValue]="category.id">{{ category.name }}</option>
                 </select>
               </div>
-              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['categoryId']}" i18n>Should select category</span>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['product']['categoryId']}" i18n>Should select category</span>
             </div>
           </div>
           <div class="col-lg-4">
@@ -109,11 +100,11 @@
                 <span i18n><sup>*</sup>Store</span>
               </div>
               <div class="fs-val fs-val-fx">
-                <select class="select-ctrl" [(ngModel)]="product['storeId']">
+                <select class="select-ctrl" [(ngModel)]="product['product']['storeId']">
                   <option *ngFor="let store of stores" [ngValue]="store.id">{{ store.name }}</option>
                 </select>
               </div>
-              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['storeId']}" i18n>Should select store</span>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['product']['storeId']}" i18n>Should select store</span>
             </div>
           </div>
         </div>
@@ -124,9 +115,9 @@
                 <span i18n><sup>*</sup>Description</span>
               </div>
               <div class="fs-val">
-                <input type="textarea" class="form-input" [(ngModel)]="product['description']" (change)="validateForm()"/>
+                <input type="textarea" class="form-input" [(ngModel)]="product['product'].description" (change)="validateForm()"/>
               </div>
-              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['description']}" i18n>Should fill this area</span>
+              <span class="error-indicate" [ngClass]="{'invalid':submitted && !product['product'].description}" i18n>Should fill this area</span>
             </div>
           </div>
         </div>

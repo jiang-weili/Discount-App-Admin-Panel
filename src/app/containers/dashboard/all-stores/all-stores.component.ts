@@ -13,8 +13,6 @@ window['$'] = window['jQuery'] = $;
 
 declare function require(name:string);
 
-var dt = require( 'datatables.net' );
-
 const PAGE_SIZE = 10;
 @Component({
   selector: 'app-all-stores',
@@ -27,7 +25,6 @@ export class AllStoresComponent implements OnInit {
   baseUriPfx = "api/store/all";
   allStores = [];
   allStoresList = [];
-  page = { totalElements: 0, pageNumber: 0, size: PAGE_SIZE };
   @Input() asModal = false;
 
   constructor(
@@ -45,7 +42,7 @@ export class AllStoresComponent implements OnInit {
     this.loading = true;
     this.allStores = [];
     this.allStoresList = [];
-    this.api.list(this.baseUriPfx, this.page.pageNumber, data => {
+    this.api.list(this.baseUriPfx, 0, data => {
       this.allStores = data;
       this.allStoresList = this.allStores;
       this.jQueryLibraryInit();
@@ -77,14 +74,24 @@ export class AllStoresComponent implements OnInit {
         };
         this.loading = true;
         this.api.store('api/store', submit_data, data => {
-          console.log(data);
           this.allStores.push(data);
           this.loading = false;
         });
       } else {
-        /*
-          Update store area
-        */
+        this.loading = true;
+        var submit_data = {
+          'Id': ret.id,
+          'Name': ret.name,
+          'Description': ret.description,
+          'Icon': ret.icon,
+          ...ret
+        };
+        let editIndex = this.allStores.indexOf(store);
+
+        this.api.update('api/store', submit_data, data => {
+          this.allStores.splice(editIndex, 1, data);
+          this.loading = false;
+        });
       }
     }, () => { });
   }

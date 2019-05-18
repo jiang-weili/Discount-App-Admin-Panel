@@ -26,20 +26,23 @@ import { GooglePlaceDirective } from 'ngx-google-places-autocomplete/ngx-google-
   encapsulation: ViewEncapsulation.None
 })
 export class AddEditStoreComponent implements OnInit {
+  /* Initial Variables */
   title = '';
   @Input() mode: 'as-modal';
   @Input() storeInput = null;
-  imageUploadUrl = "";
-  imageDBUrl = "images/";
   store = {};
   categories = [];
   stores = [];
+
+  /* Setting Values */
   addNewStore = false;
   loading = false;
   isFormValid = true;
   submitted = false;
+  imageUploadUrl = "api/Upload/Image";
+  imageDBUrl = env.apiURL + "images/";
 
-  /// Location for Store
+  /* Location For Store */
   @ViewChild('places') places: GooglePlaceDirective;
   @ViewChild('places2') places2: GooglePlaceDirective;
   @ViewChild('search' ) public searchElement: ElementRef;
@@ -59,6 +62,7 @@ export class AddEditStoreComponent implements OnInit {
 
   lat: number = 39.90419989999999;
   lng: number = 116.40739630000007;
+  /* End Location For Store */
 
   constructor(
     private api: ApplicationService,
@@ -77,8 +81,6 @@ export class AddEditStoreComponent implements OnInit {
     this.title = this.storeInput ? 'Edit Store' : 'Add New Store';
     this.store = this.storeInput ? _.cloneDeep(this.storeInput) : {};
     this.addNewStore = !this.storeInput;
-    this.imageUploadUrl = env.apiURL + "api/Upload/Image/";
-    this.imageDBUrl = env.apiURL + this.imageDBUrl;
 
     this.initLocationForm();
 
@@ -90,10 +92,6 @@ export class AddEditStoreComponent implements OnInit {
 
     if (this.addNewStore) {
       this.store['location'] = [];
-
-      /// should be removed
-      this.store['icon'] = "c7a65ad1-e4d2-4544-a213-0d40a25f7cf0.png";
-      this.store['banner'] = "dd5f75b5-cb08-40d7-b767-ede6fb459554.jpg";
     }
   }
 
@@ -112,7 +110,7 @@ export class AddEditStoreComponent implements OnInit {
     this.store['banner'] = "dd5f75b5-cb08-40d7-b767-ede6fb459554.jpg";
 
     // this.loading = true;
-    // this.api.uploadFile('api/Upload/Image/', files[0], data => {
+    // this.api.uploadFile(imageUploadUrl, files[0], data => {
     //   if (type == "banner") {
     //     console.log('banner');
     //     this.store['banner'] = data;
@@ -137,18 +135,6 @@ export class AddEditStoreComponent implements OnInit {
     }
 
     return this.isFormValid;
-  }
-
-  backWithoutSave() {
-    if (JSON.stringify(this.store) !== JSON.stringify(this.storeInput)) {
-      this.modalService.open(BackWithoutSaveAlertModalComponent, { centered: true }).result.then(ret => {
-        if (ret === 'leave') {
-          this.activeModal.dismiss('back');
-        }
-      }, () => { });
-    } else {
-      this.activeModal.dismiss('back');
-    }
   }
 
   changeShowMode(e) {

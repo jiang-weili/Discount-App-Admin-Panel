@@ -39,8 +39,15 @@ export class ApiService {
             'Content-Type':  'application/json',
             'Authorization': 'Bearer ' + this.authService.loadToken()
         });
-        console.log(this.domain + uri);
         return this.http.delete(this.domain + uri, {headers: headers});
+    }
+
+    put(uri, data) {
+        const headers = new Headers({
+            'Content-Type':  'application/json',
+            'Authorization': 'Bearer ' + this.authService.loadToken()
+        });
+        return this.http.put(this.domain + uri, data, {headers: headers}).map(res => res.json());
     }
 
     uploadFile(uri, file) {

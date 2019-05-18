@@ -1,7 +1,6 @@
 <div class="sub-page edit-user" [class.modal-page]="mode === 'as-modal'">
   <div class="viewport">
     <header class="sub-header sub-header-sm" [class.modal-header]="mode === 'as-modal'">
-      <i class="icon icon-back" (click)="backWithoutSave()" *ngIf="mode!=='as-modal'"></i>
       <h3>{{title}}</h3>
       <button *ngIf="mode==='as-modal'" type="button" class="close" aria-label="Close"
               (click)="activeModal.dismiss('back')">
@@ -19,7 +18,7 @@
           <div class="col-lg-12 banner-area">
               <input type="file" style="display:none" (change)="uploadImage($event.target.files, 'banner')" #selectBanner />
               <div class="banner-image" (click)="selectBanner.click()">
-                  <img [src]="store['banner'] ? imageDBUrl+store['banner'] : '../../../../assets/product-images/default.png'" alt="banner image">
+                  <img [src]="store['banner'] ? imageDBUrl+store['banner'] : '../../../../assets/product-images/placeholder-hor.png'" alt="banner image">
               </div>
 
               <input type="file" style="display:none" (change)="uploadImage($event.target.files, 'icon')" #selectIcon />

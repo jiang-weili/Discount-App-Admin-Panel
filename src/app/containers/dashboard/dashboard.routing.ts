@@ -21,10 +21,10 @@ export const dashboardRoutes: Routes = [
     path: 'stores', component: StoreComponent,
     data: { title: 'Stores' }
   },
-  // {
-  //   path: 'members-privileges', component: MemberPrivilegeComponent,
-  //   data: { title: 'Members'}
-  // },
+  {
+    path: 'members-privileges', component: MemberPrivilegeComponent,
+    data: { title: 'Members'}
+  },
   {
     path: 'categories', component: CategoriesComponent,
     data: { title: 'Categories'}

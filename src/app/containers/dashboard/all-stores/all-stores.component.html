@@ -8,7 +8,7 @@
         <div class="loading-box" *ngIf="loading">
           <div class="img" alt="loading"></div>
         </div>
-        
+
         <div class="all-store-table">
             <table id="storetable" class="table table-striped table-bordered nowrap" style="width:100%">
                 <thead>
@@ -37,7 +37,9 @@
         </div>
       </div>
       <div class="footer-panel" *ngIf="!asModal">
-        <app-add-new (click)="addOrEditStore()" *ngIf="!asModal"><span i18n>Add New Store</span></app-add-new>
+        <div class="footer-area">
+            <app-add-new (click)="addOrEditStore()" *ngIf="!asModal"><span i18n>Add New Store</span></app-add-new>
+        </div>
       </div>
     </div>
 </div>
