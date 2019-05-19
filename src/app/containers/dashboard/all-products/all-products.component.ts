@@ -74,7 +74,7 @@ export class AllProductsComponent implements OnInit {
       } else {
         console.log(ret);
         this.loading = true;
-        var submit_data = {
+        var update_data = {
           'Id': ret['product'].id,
           'Name': ret['product'].name,
           'Description': ret['product'].description,
@@ -88,7 +88,7 @@ export class AllProductsComponent implements OnInit {
         };
         let editIndex = this.allProducts.indexOf(product);
 
-        this.api.update('api/store', submit_data, data => {
+        this.api.update('api/store', update_data, data => {
           console.log(data);
           this.allProducts.splice(editIndex, 1, data);
           this.loading = false;

@@ -13,11 +13,13 @@ import { environment as env } from '../../../../environments/environment';
 
 
 import { MapsAPILoader } from '@agm/core';
-import {} from '@types/googlemaps';
+import {} from 'googlemaps';
 import { ViewChild, ElementRef, NgZone, } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { GooglePlaceDirective } from 'ngx-google-places-autocomplete/ngx-google-places-autocomplete.directive';
+
+declare function require(name:string);
 
 @Component({
   selector: 'app-add-edit-store',
@@ -95,12 +97,12 @@ export class AddEditStoreComponent implements OnInit {
     }
   }
 
-  handleAddressChange(address: Address) {
+  handleAddressChange(address) {
       this.lng = address.geometry.location.lng();
       this.lat  = address.geometry.location.lat();
   }
 
-  handleAddressChange2(address: Address) {
+  handleAddressChange2(address) {
       this.editLocationLng = address.geometry.location.lng();
       this.editLocationLat  = address.geometry.location.lat();
   }

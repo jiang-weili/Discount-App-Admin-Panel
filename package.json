@@ -46,6 +46,7 @@
     "datatables.net-responsive-bs4": "^2.2.3",
     "file-saver": "^2.0.0",
     "gojs": "^1.8.35",
+    "googlemaps": "^1.12.0",
     "jquery": "^3.4.1",
     "lodash": "^4.17.11",
     "ng-select": "^1.0.0",

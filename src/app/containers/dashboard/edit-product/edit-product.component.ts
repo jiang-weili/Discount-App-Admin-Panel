@@ -48,7 +48,7 @@ export class EditProductComponent implements OnInit {
     this.title = this.productInput ? 'Edit product' : 'Add New Product';
     this.product = this.productInput ? _.cloneDeep(this.productInput) : {};
     this.addNewProduct = !this.productInput;
-    this.imageBaseUrl = env.apiURL + "api/Upload/Image/";
+    this.imageUploadUrl = env.apiURL + "api/Upload/Image/";
 
     this.api.list('/api/store/all', 0, data => {
       this.stores = data;

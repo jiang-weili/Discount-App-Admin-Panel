@@ -11,8 +11,6 @@ import { DeleteAlertModalComponent } from '../modals/delete-alert-modal/delete-a
 import * as $ from 'jquery';
 window['$'] = window['jQuery'] = $;
 
-declare function require(name:string);
-
 const PAGE_SIZE = 10;
 @Component({
   selector: 'app-all-stores',
@@ -79,7 +77,7 @@ export class AllStoresComponent implements OnInit {
         });
       } else {
         this.loading = true;
-        var submit_data = {
+        var update_data = {
           'Id': ret.id,
           'Name': ret.name,
           'Description': ret.description,
@@ -88,7 +86,7 @@ export class AllStoresComponent implements OnInit {
         };
         let editIndex = this.allStores.indexOf(store);
 
-        this.api.update('api/store', submit_data, data => {
+        this.api.update('api/store', update_data, data => {
           this.allStores.splice(editIndex, 1, data);
           this.loading = false;
         });
