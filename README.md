@@ -21,10 +21,6 @@ Run `ng generate component component-name` to generate a new component. You can 
 You can login with either of the two credentials mentioned below listed in `username` : `password` format
 * `jaafarbarek@gmail.com` : `111222Abc`
 
-The view will display according to different user type('old', 'new').
-
-To edit the login credentials you can go to `src/assets/data/UserCredentials.json` and updated the SHA-256 hashed credentials. Note the `secret` for SHA-256 hashing to be used is `discount`
-
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
