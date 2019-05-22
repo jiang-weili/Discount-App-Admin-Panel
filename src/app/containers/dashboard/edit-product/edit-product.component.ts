@@ -21,7 +21,7 @@ export class EditProductComponent implements OnInit {
   title = '';
   @Input() mode: 'as-modal';
   @Input() productInput = null;
-  product = {};
+  product: any;
   categories = [];
   stores = [];
 
@@ -50,6 +50,26 @@ export class EditProductComponent implements OnInit {
     this.addNewProduct = !this.productInput;
     this.imageUploadUrl = env.apiURL + "api/Upload/Image/";
 
+    if (this.addNewProduct === true) {
+      this.product = {
+        product: {
+          isActive: true,
+          name: null,
+          price: null,
+          sellingPrice: null,
+          unitsInStock: null,
+          categoryId: null,
+          storeId: null,
+          description: null,
+          icon: null
+        },
+        categoryId: null,
+        categoryName: null,
+        storeId: null,
+        storeName: null
+      };
+    }
+
     this.api.list('/api/store/all', 0, data => {
       this.stores = data;
       this.validateForm();
@@ -57,16 +77,13 @@ export class EditProductComponent implements OnInit {
 
     this.api.list('/api/category/all', 0, data => {
       this.categories = data;
-      if (this.addNewProduct === true) {
-        this.product['product']['isActive'] = true;
-      }
       this.validateForm();
       this.loading = false;
     });
   }
 
   uploadImage(files: File[]) {
-    this.product['icon'] = "e90873ea-9311-474f-a742-144812faa146.png";
+    this.product.product['icon'] = "e90873ea-9311-474f-a742-144812faa146.png";
 
     // this.loading = true;
     // this.api.uploadFile(imageUploadUrl, files[0], data => {
@@ -99,6 +116,17 @@ export class EditProductComponent implements OnInit {
   save() {
     this.submitted = true;
     if (this.validateForm() === false) return;
-    this.activeModal.close(this.product);
+    var submit_data = {
+      name: this.product.product['name'],
+      description: this.product.product['description'],
+      icon: this.product.product['icon'],
+      price: this.product.product['price'],
+      sellingPrice: this.product.product['sellingPrice'],
+      unitsInStock: this.product.product['unitsInStock'],
+      isActive: this.product.product['isActive'],
+      storeId: this.product.product['storeId'],
+      categoryId: this.product.product['categoryId']
+    };
+    this.activeModal.close(submit_data);
   }
 }

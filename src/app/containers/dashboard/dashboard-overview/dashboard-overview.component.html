@@ -4,27 +4,69 @@
   </div>
   <div *ngIf="!loading" class="container-fluid">
     <div class="row">
-      <div class="col-lg-6 daily-status-section">
+      <div class="col-lg-12 welcome-area">
+        <h4>Welcome <span style="font-style: italic; font-weight: bold"> {{ admin.fullname }}</span></h4>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row">
+      <div class="col-lg-3 daily-status-section">
         <div class="chart-card daily-status">
-          <div class="status-item">
-            <span class="value">{{ statistics.stores }}</span>
-            <span class="text" i18n>Stores</span>
-            <i class="fa fa-database"></i>
+          <div class="info-box">
+            <span class="info-box-icon bg-red-active">
+              <i class="fa fa-cubes"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Products</span>
+              <hr>
+              <span class="info-box-number"><h3>{{ products.length }}</h3></span>
+            </div>
           </div>
-          <div class="status-item">
-            <span class="value">{{ statistics.products }}</span>
-            <span class="text" i18n>Products</span>
-            <i class="fa fa-cubes"></i>
+        </div>
+      </div>
+
+      <div class="col-lg-3 daily-status-section">
+        <div class="chart-card daily-status">
+          <div class="info-box">
+            <span class="info-box-icon bg-red-active">
+              <i class="ion ion-ios-home"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Stores</span>
+              <hr>
+              <span class="info-box-number"><h3>{{ stores.length }}</h3></span>
+            </div>
           </div>
-          <div class="status-item">
-            <span class="value">{{ statistics.users }}</span>
-            <span class="text" i18n>Members</span>
-            <i class="icon icon-members-privileges"></i>
+        </div>
+      </div>
+
+      <div class="col-lg-3 daily-status-section">
+        <div class="chart-card daily-status">
+          <div class="info-box">
+            <span class="info-box-icon bg-red-active">
+              <i class="icon icon-members-privileges"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Users</span>
+              <hr>
+              <span class="info-box-number"><h3>{{ 0 }}</h3></span>
+            </div>
           </div>
-          <div class="status-item">
-            <span class="value">{{ statistics.categories }}</span>
-            <span class="text" i18n>Categories</span>
-            <i class="fa fa-tags"></i>
+        </div>
+      </div>
+
+      <div class="col-lg-3 daily-status-section">
+        <div class="chart-card daily-status">
+          <div class="info-box">
+            <span class="info-box-icon bg-red-active">
+              <i class="fa fa-list"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Categories</span>
+              <hr>
+              <span class="info-box-number"><h3>{{ categories.length }}</h3></span>
+            </div>
           </div>
         </div>
       </div>

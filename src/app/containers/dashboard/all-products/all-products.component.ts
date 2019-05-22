@@ -20,6 +20,8 @@ export class AllProductsComponent implements OnInit {
   baseUriPfx = "api/product/all";
   allProducts = [];
   allProductsList = [];
+  allStores = [];
+  allCategories = [];
   @Input() asModal = false;
 
   constructor(
@@ -31,9 +33,15 @@ export class AllProductsComponent implements OnInit {
 
   ngOnInit() {
     this.getAllProducts();
+    this.api.list('api/category/all', 0, data => {
+      this.allCategories = data;
+    });
+    this.api.list('api/store/all', 0, data => {
+      this.allStores = data;
+    });
   }
 
-  addOrEditProduct(product: Object = null) {
+  addOrEditProduct(product: any = null) {
     const modalRef = this.modalService.open(EditProductComponent, {
       centered: true,
       size: 'lg',
@@ -45,7 +53,7 @@ export class AllProductsComponent implements OnInit {
       if (!product) {
         var submit_data = {
           Name: ret['name'],
-          Description: ret.description,
+          Description: ret['description'],
           Icon: ret['icon'],
           Price: ret['price'],
           SellingPrice: ret['sellingPrice'],
@@ -56,41 +64,54 @@ export class AllProductsComponent implements OnInit {
         };
         this.loading = true;
         this.api.store('api/product', submit_data, data => {
-          // this.allProducts.push(data);
           this.allProducts.push({
-            'product': {
-              'name': data['name'],
-              'description': data['description'],
-              'price': data['price'],
-              'sellingPrice': data['sellingPrice'],
-              'unitsInStock': data['unitsInStock']
+            product: {
+              id: data['id'],
+              name: data['name'],
+              description: data['description'],
+              price: data['price'],
+              sellingPrice: data['sellingPrice'],
+              unitsInStock: data['unitsInStock'],
+              icon: data['icon'],
+              isActive: data['isActive'],
+              storeId: data['storeId'],
+              categoryId: data['categoryId'],
+              isOnSale: data['isOnSale'],
+              isTrending: data['isTrending']
             },
-            'icon': data['icon'],
-            'storeName': "",
-            'categoryName': ""
+            storeId: data['storeId'],
+            storeName: this.allStores.filter(item => item.id === data['storeId'])[0].name,
+            categoryId: data['categoryId'],
+            categoryName: this.allCategories.filter(item => item.id === data['categoryId'])[0].name
           });
           this.loading = false;
         });
       } else {
-        console.log(ret);
         this.loading = true;
         var update_data = {
-          'Id': ret['product'].id,
-          'Name': ret['product'].name,
-          'Description': ret['product'].description,
-          'Icon': ret['product'].icon,
-          'BuyingPrice': ret['product'].price,
-          'SellingPrice': ret['product'].sellingPrice,
-          'UnitsInStock': ret['product'].unitsInStock,
-          'IsActive': ret['product'].isActive,
-          'StoreId': ret['product'].storeId,
-          'CategoryId': ret['product'].categoryId,
+          Id: product.product.id,
+          Name: ret['name'],
+          Description: ret['description'],
+          Icon: ret['icon'],
+          Price: ret['price'],
+          SellingPrice: ret['sellingPrice'],
+          UnitsInStock: ret['unitsInStock'],
+          IsActive: ret['isActive'],
+          StoreId: ret['storeId'],
+          CategoryId: ret['categoryId']
         };
+
         let editIndex = this.allProducts.indexOf(product);
 
-        this.api.update('api/store', update_data, data => {
-          console.log(data);
-          this.allProducts.splice(editIndex, 1, data);
+        this.api.update('api/product', update_data, data => {
+          var new_data = {
+            product: data,
+            storeId: data['storeId'],
+            storeName: this.allStores.filter(item => item.id === data['storeId'])[0].name,
+            categoryId: data['categoryId'],
+            categoryName: this.allCategories.filter(item => item.id === data['categoryId'])[0].name
+          }
+          this.allProducts.splice(editIndex, 1, new_data);
           this.loading = false;
         });
       }
@@ -101,7 +122,7 @@ export class AllProductsComponent implements OnInit {
     this.loading = true;
     this.allProducts = [];
     this.allProductsList = [];
-    this.api.list(this.baseUriPfx, 1, data => {
+    this.api.list(this.baseUriPfx, 0, data => {
       if (data.result === "Success") {
         this.allProducts = data.dataList;
         this.allProductsList = this.allProducts;
@@ -117,9 +138,7 @@ export class AllProductsComponent implements OnInit {
     modalRef.result.then(ret => {
       if (ret === 'delete') {
         this.loading = true;
-        console.log(product);
         let deleteIndex = this.allProducts.indexOf(product);
-
         this.api.delete('api/product/' + product['product'].id, cb => {
           this.allProducts.splice(deleteIndex, 1);
           this.loading = false;

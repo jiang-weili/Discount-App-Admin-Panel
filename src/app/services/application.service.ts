@@ -11,7 +11,7 @@ export class ApplicationService {
 
   public list(uri, page, cb){
     var params = {
-      limit: 10,
+      limit: 10000,
       page: page
     };
     return this.api.get(uri, params).subscribe(cb);

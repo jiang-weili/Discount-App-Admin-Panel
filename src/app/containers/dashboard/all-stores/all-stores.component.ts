@@ -33,7 +33,7 @@ export class AllStoresComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-      this.getAllStores();
+    this.getAllStores();
   }
 
   getAllStores() {
@@ -55,7 +55,6 @@ export class AllStoresComponent implements OnInit {
         windowClass: 'medium-screen-modal-window',
     });
     modalRef.componentInstance.storeInput = store;
-    // modalRef.componentInstance.mode = store ? 'full-screen' : 'as-modal';
     modalRef.componentInstance.mode = 'as-modal';
 
     modalRef.result.then(ret => {

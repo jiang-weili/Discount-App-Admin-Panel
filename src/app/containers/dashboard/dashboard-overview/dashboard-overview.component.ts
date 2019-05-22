@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-// import { ApplicationService } from '../../../services/application.service';
+import { ApplicationService } from '../../../services/application.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard-overview',
@@ -12,15 +13,30 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 export class DashboardOverviewComponent implements OnInit {
 
   loading = true;
-  statistics: any;
+  products: any [] = [];
+  categories: any [] = [];
+  stores: any [] = [];
+  admin: any;
 
-  constructor() { }
+  constructor(
+    private api: ApplicationService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.loading = false;
-    // this.appService.getDashboardCenterData().subscribe(res => {
-    //   this.statistics = res.statistics;
-    //   this.loading = false;
-    // });
+
+
+    this.api.list('api/product/all', 0, data => {
+      this.products = data.dataList;
+    });
+    this.api.list('api/store/all', 0, data => {
+      this.stores = data;
+    });
+    this.api.list('api/category/all', 0, data => {
+      this.categories = data;
+      this.loading = false;
+    });
+    this.admin = this.authService.getUser();
   }
 }
