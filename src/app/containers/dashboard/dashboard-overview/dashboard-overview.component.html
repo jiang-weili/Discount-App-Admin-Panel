@@ -71,5 +71,38 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-lg-3 chart-card assets-manufacture">
+        <div class="chart-card-title" i18n>Products by Categories</div>
+        <div class="chart-container last">
+          <!-- <img src="assets/chart-images/pie-chart.svg"> -->
+          <div style="display: block">
+            <canvas mdbChart
+                [chartType]="chartType"
+                [datasets]="chartDatasets"
+                [labels]="chartLabels"
+                [colors]="chartColors"
+                [options]="chartOptions"
+                (chartHover)="chartHovered($event)"
+                (chartClick)="chartClicked($event)">
+            </canvas>
+          </div>
+        </div>
+        <div class="vertical-legend">
+          <div class="legend-header">
+            <span>Category</span>
+            <span>Count</span>
+          </div>
+          <div class="legend-row" *ngFor="let chartLabel of chartLabels; let i = index">
+            <!-- <div class="legend-indicator orange"></div> -->
+            <div class="legend-label">{{ chartLabel }}</div>
+            <div class="pill-box">{{ chartDatasets[0].data[i] }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-9 chart-card assets-manufacture">
+        <app-chart [dataList] = "dataList['Performance Summary']"></app-chart>
+      </div>
+    </div>
   </div>
 </div>

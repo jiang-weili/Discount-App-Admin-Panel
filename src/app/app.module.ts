@@ -26,12 +26,13 @@ import { MainHeaderComponent } from './components/main-header/main-header.compon
 import { DashboardModule } from './containers/dashboard/dashboard.module';
 import { AddNewComponent } from './components/add-new/add-new.component';
 import { MemberComponent } from './components/member/member.component';
+// import { ChartComponent } from './components/chart/chart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    MainHeaderComponent
+    MainHeaderComponent,
   ],
   imports: [
     BrowserModule,

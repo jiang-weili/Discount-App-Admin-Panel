@@ -35,9 +35,24 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 import { LookBookStoreComponent } from './modals/look-book-store/look-book-store.component';
 import { AddEditItemComponent } from './modals/add-edit-item/add-edit-item.component';
 import { AllStoresComponent } from './all-stores/all-stores.component';
+import { ChartComponent } from '../../components/chart/chart.component';
 
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
 import { AgmCoreModule } from '@agm/core';
+
+import { MDBBootstrapModule, ChartsModule } from 'angular-bootstrap-md';
+
+// Import angular-fusioncharts
+import { FusionChartsModule } from 'angular-fusioncharts';
+
+// Import FusionCharts library and chart modules
+import * as FusionCharts from 'fusioncharts';
+import * as Charts from 'fusioncharts/fusioncharts.charts';
+import * as TimeSeries from 'fusioncharts/fusioncharts.timeseries';
+import * as FusionTheme from 'fusioncharts/themes/fusioncharts.theme.fusion';
+
+// Pass the fusioncharts library and chart modules
+FusionChartsModule.fcRoot(FusionCharts, Charts, FusionTheme, TimeSeries);
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
@@ -65,7 +80,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AgmCoreModule.forRoot({
         apiKey:'AIzaSyAUkBNadf_lQyCLnNbrgqB9PCLdFP-Agj8',
         libraries: ["places"]
-    })
+    }),
+    MDBBootstrapModule.forRoot(),
+    ChartsModule,
+    FusionChartsModule
   ],
   entryComponents: [
     EditUserComponent,
@@ -102,6 +120,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     LookBookStoreComponent,
     AddEditItemComponent,
     AllStoresComponent,
+    ChartComponent
   ]
 })
 export class DashboardModule { }
